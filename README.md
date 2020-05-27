@@ -18,15 +18,16 @@ ReadCMS/GoHEP/Zlib-8               18.5s ± 1%
 ReadCMS/ROOT-TreeBranch/Zlib-8     30.4s ± 2%
 ReadCMS/ROOT-TreeReader/Zlib-8     25.2s ± 4%
 
-ReadScalar/GoHEP/None-8            737ms ± 3%
-ReadScalar/GoHEP/LZ4-8             769ms ± 3%
-ReadScalar/GoHEP/Zlib-8            1.33s ± 1%
-ReadScalar/ROOT-TreeBranch/None-8  1.22s ± 3%
-ReadScalar/ROOT-TreeBranch/LZ4-8   1.35s ± 3%
-ReadScalar/ROOT-TreeBranch/Zlib-8  2.47s ± 1%
-ReadScalar/ROOT-TreeReader/None-8  1.43s ± 5%
-ReadScalar/ROOT-TreeReader/LZ4-8   1.57s ± 2%
-ReadScalar/ROOT-TreeReader/Zlib-8  2.69s ± 1%
+name                               time/op
+ReadScalar/GoHEP/None-8            705ms ± 2%
+ReadScalar/ROOT-TreeBranch/None-8  941ms ± 2%
+ReadScalar/ROOT-TreeReader/None-8  1.39s ± 2%
+ReadScalar/GoHEP/LZ4-8             751ms ± 2%
+ReadScalar/ROOT-TreeBranch/LZ4-8   1.09s ± 2%
+ReadScalar/ROOT-TreeReader/LZ4-8   1.53s ± 1%
+ReadScalar/GoHEP/Zlib-8            1.31s ± 1%
+ReadScalar/ROOT-TreeBranch/Zlib-8  2.18s ± 1%
+ReadScalar/ROOT-TreeReader/Zlib-8  2.62s ± 1%
 ```
 
 - Go-HEP `v0.26.1-0.20200511085556-0f7b59f24c5e`
