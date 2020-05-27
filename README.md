@@ -14,10 +14,9 @@
 
 ```
 name                               time/op
-ReadCMS/GoHEP/Zlib-8               19.2s ± 1%
-ReadCMS/ROOT-TreeBranch/Zlib-8     37.5s ± 1%
-ReadCMS/ROOT-TreeReader/Zlib-8     26.1s ± 3%
-ReadCMS/ROOT-TreeReaderMT/Zlib-8   25.6s ± 5%  (ROOT::EnableImplicitMT())
+ReadCMS/GoHEP/Zlib-8               18.5s ± 1%
+ReadCMS/ROOT-TreeBranch/Zlib-8     30.4s ± 2%
+ReadCMS/ROOT-TreeReader/Zlib-8     25.2s ± 4%
 
 ReadScalar/GoHEP/None-8            737ms ± 3%
 ReadScalar/GoHEP/LZ4-8             769ms ± 3%
