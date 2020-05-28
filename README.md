@@ -13,10 +13,15 @@
 - Go-HEP `v0.27.0` (Go-1.14), `ROOT-6.20/04` (g++-10.1.0) (both on local file)
 
 ```
-name                               time/op
-ReadCMS/GoHEP/Zlib-8               18.5s ± 1%
-ReadCMS/ROOT-TreeBranch/Zlib-8     30.4s ± 2%
-ReadCMS/ROOT-TreeReader/Zlib-8     25.2s ± 4%
+name                                  time/op
+ReadCMSScalar/GoHEP/Zlib-8            3.92s ± 2%  // only read scalar data
+ReadCMSScalar/ROOT-TreeBranch/Zlib-8  7.98s ± 2%  // ditto
+ReadCMSScalar/ROOT-TreeReader/Zlib-8  6.60s ± 2%  // ditto
+
+name                                  time/op
+ReadCMSAll/GoHEP/Zlib-8               18.4s ± 1%  // read all branches
+ReadCMSAll/ROOT-TreeBranch/Zlib-8     30.4s ± 2%  // ditto
+ReadCMSAll/ROOT-TreeReader/Zlib-8     [N/A]       // comparison meaningless (b/c of loading-on-demand)
 
 name                               time/op
 ReadScalar/GoHEP/None-8            705ms ± 2%

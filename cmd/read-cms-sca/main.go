@@ -9,7 +9,6 @@ import (
 	"log"
 	"os"
 	"runtime/pprof"
-	"strings"
 	"time"
 
 	bench "github.com/go-hep/groot-bench"
@@ -21,7 +20,6 @@ func main() {
 	var (
 		nevts = flag.Int64("nevts", -1, "number of events to read")
 		tname = flag.String("t", "Events", "name of the ROOT tree to read")
-		names = flag.String("b", "", "comma-separated list of branches/leaves to read")
 
 		cpuProf = flag.String("cpu-profile", "", "path to the output CPU profile")
 	)
@@ -46,18 +44,10 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	var branches []string
-	switch *names {
-	case "":
-		// no op
-	default:
-		branches = strings.Split(*names, ",")
-	}
-
-	read(flag.Arg(0), *tname, *nevts, branches)
+	read(flag.Arg(0), *tname, *nevts)
 }
 
-func read(fname, tname string, nevts int64, names []string) {
+func read(fname, tname string, nevts int64) {
 	start := time.Now()
 	defer func() {
 		log.Printf("read time: %v", time.Since(start))
@@ -76,7 +66,10 @@ func read(fname, tname string, nevts int64, names []string) {
 	}
 	t := obj.(rtree.Tree)
 
-	rvars := bench.RVarsFrom(t, names)
+	var (
+		evt   Event
+		rvars = rtree.ReadVarsFromStruct(&evt)
+	)
 
 	if nevts < 0 {
 		nevts = t.Entries()
@@ -89,8 +82,8 @@ func read(fname, tname string, nevts int64, names []string) {
 	defer r.Close()
 
 	log.Printf("-- created reader: evts=%d", nevts)
-	for i, n := range names {
-		log.Printf("branch[%d]: name=%q", i, n)
+	for i, rv := range rvars {
+		log.Printf("branch[%d]: name=%q", i, rv.Name)
 	}
 
 	var (
@@ -108,4 +101,17 @@ func read(fname, tname string, nevts int64, names []string) {
 		log.Fatalf("could not read tree: %+v", err)
 	}
 	log.Printf("read %d entries", n)
+}
+
+// Event is the data contained in a rtree.Tree.
+type Event struct {
+	ROOT_run             int32   `groot:"run"`
+	ROOT_luminosityBlock uint32  `groot:"luminosityBlock"`
+	ROOT_event           uint64  `groot:"event"`
+	ROOT_PV_npvs         int32   `groot:"PV_npvs"`
+	ROOT_PV_x            float32 `groot:"PV_x"`
+	ROOT_PV_y            float32 `groot:"PV_y"`
+	ROOT_PV_z            float32 `groot:"PV_z"`
+	ROOT_nMuon           uint32  `groot:"nMuon"`
+	ROOT_nElectron       uint32  `groot:"nElectron"`
 }

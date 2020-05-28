@@ -120,7 +120,7 @@ func BenchmarkReadSlices(b *testing.B) {
 	}
 }
 
-func BenchmarkReadCMS(b *testing.B) {
+func BenchmarkReadCMSAll(b *testing.B) {
 	for _, lc := range []struct {
 		kind string
 		cmd  string
@@ -128,26 +128,126 @@ func BenchmarkReadCMS(b *testing.B) {
 	}{
 		{
 			kind: "GoHEP",
-			cmd:  "./bin/read-cms",
+			cmd:  "./bin/read-cms-all",
 		},
 		{
 			kind: "ROOT-TreeBranch",
-			cmd:  "./bin/cxx-read-cms-br",
+			cmd:  "./bin/cxx-read-cms-all-br",
 		},
-		//	{
-		//		kind: "ROOT-TreeBranchMT",
-		//		cmd:  "./bin/cxx-read-cms-br-mt",
-		//		skip: true, // takes way too much time (more than single threaded)
-		//	},
+	} {
+		if lc.skip {
+			b.Skip()
+		}
+
+		b.Run(lc.kind, func(b *testing.B) {
+			for _, bc := range []struct {
+				name  string
+				fname string
+			}{
+				{
+					name:  "Zlib",
+					fname: "./testdata/Run2012B_DoubleElectron.root",
+				},
+				// {
+				// 	name:  "Zlib-XRD",
+				// 	fname: "root://eospublic.cern.ch//eos/root-eos/cms_opendata_2012_nanoaod/Run2012B_DoubleElectron.root",
+				// },
+			} {
+				b.Run(bc.name, func(b *testing.B) {
+					b.ResetTimer()
+					for i := 0; i < b.N; i++ {
+						b.StopTimer()
+						cmd := exec.Command(lc.cmd, bc.fname)
+						cmd.Stdout = ioutil.Discard
+						cmd.Stderr = ioutil.Discard
+						b.StartTimer()
+						err := cmd.Run()
+						if err != nil {
+							b.Fatal(err)
+						}
+					}
+				})
+			}
+		})
+	}
+}
+
+func BenchmarkReadCMSScalar(b *testing.B) {
+	for _, lc := range []struct {
+		kind string
+		cmd  string
+		skip bool
+	}{
+		{
+			kind: "GoHEP",
+			cmd:  "./bin/read-cms-sca",
+		},
+		{
+			kind: "ROOT-TreeBranch",
+			cmd:  "./bin/cxx-read-cms-sca-br",
+		},
 		{
 			kind: "ROOT-TreeReader",
-			cmd:  "./bin/cxx-read-cms-rd",
+			cmd:  "./bin/cxx-read-cms-sca-rd",
 		},
-		//	{
-		//		kind: "ROOT-TreeReaderMT",
-		//		cmd:  "./bin/cxx-read-cms-rd-mt",
-		//		skip: true, // TreeReader isn't multi-threaded (RDF is)
-		//	},
+	} {
+		if lc.skip {
+			b.Skip()
+		}
+
+		b.Run(lc.kind, func(b *testing.B) {
+			for _, bc := range []struct {
+				name  string
+				fname string
+			}{
+				{
+					name:  "Zlib",
+					fname: "./testdata/Run2012B_DoubleElectron.root",
+				},
+				// {
+				// 	name:  "Zlib-XRD",
+				// 	fname: "root://eospublic.cern.ch//eos/root-eos/cms_opendata_2012_nanoaod/Run2012B_DoubleElectron.root",
+				// },
+			} {
+				b.Run(bc.name, func(b *testing.B) {
+					b.ResetTimer()
+					for i := 0; i < b.N; i++ {
+						b.StopTimer()
+						cmd := exec.Command(lc.cmd, bc.fname)
+						cmd.Stdout = ioutil.Discard
+						cmd.Stderr = ioutil.Discard
+						b.StartTimer()
+						err := cmd.Run()
+						if err != nil {
+							b.Fatal(err)
+						}
+					}
+				})
+			}
+		})
+	}
+}
+
+func BenchmarkReadCMSAna(b *testing.B) {
+	b.Skip() // not ready yet
+
+	for _, lc := range []struct {
+		kind string
+		cmd  string
+		skip bool
+	}{
+		{
+			kind: "GoHEP",
+			cmd:  "./bin/read-cms-ana",
+		},
+		{
+			kind: "ROOT-TreeBranch",
+			cmd:  "./bin/cxx-read-cms-ana-br",
+		},
+		{
+			kind: "ROOT-TreeReader",
+			cmd:  "./bin/cxx-read-cms-ana-rd",
+		},
 	} {
 		if lc.skip {
 			b.Skip()

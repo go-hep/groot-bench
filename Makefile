@@ -25,9 +25,14 @@ binaries:
 	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-slices-br ./cxx-root/read-slices-br.cxx
 	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-slices-rd ./cxx-root/read-slices-rd.cxx
 	## CMS OpenData 2012
-	go build -o ./bin/read-cms ./cmd/read-cms
-	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-br ./cxx-root/read-cms-br.cxx
-	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-rd ./cxx-root/read-cms-rd.cxx
+	go build -o ./bin/read-cms-all ./cmd/read-cms-all
+	go build -o ./bin/read-cms-sca ./cmd/read-cms-sca
+	go build -o ./bin/read-cms-ana ./cmd/read-cms-ana
+	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-all-br ./cxx-root/read-cms-all-br.cxx
+	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-sca-br ./cxx-root/read-cms-sca-br.cxx
+	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-sca-rd ./cxx-root/read-cms-sca-rd.cxx
+	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-ana-br ./cxx-root/read-cms-ana-br.cxx
+	$(CXX) $(OPT) $(ROOT_FLAGS) -o bin/cxx-read-cms-ana-rd ./cxx-root/read-cms-ana-rd.cxx
 
 bench:
 	./bin/run-bench -count=20
