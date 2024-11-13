@@ -5,7 +5,7 @@
 package bench_test
 
 import (
-	"io/ioutil"
+	"io"
 	"os/exec"
 	"testing"
 )
@@ -59,8 +59,8 @@ func BenchmarkReadScalar(b *testing.B) {
 					for i := 0; i < b.N; i++ {
 						b.StopTimer()
 						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = ioutil.Discard
-						cmd.Stderr = ioutil.Discard
+						cmd.Stdout = io.Discard
+						cmd.Stderr = io.Discard
 						b.StartTimer()
 						err := cmd.Run()
 						if err != nil {
@@ -122,8 +122,8 @@ func BenchmarkReadSlices(b *testing.B) {
 					for i := 0; i < b.N; i++ {
 						b.StopTimer()
 						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = ioutil.Discard
-						cmd.Stderr = ioutil.Discard
+						cmd.Stdout = io.Discard
+						cmd.Stderr = io.Discard
 						b.StartTimer()
 						err := cmd.Run()
 						if err != nil {
@@ -174,8 +174,8 @@ func BenchmarkReadCMSAll(b *testing.B) {
 					for i := 0; i < b.N; i++ {
 						b.StopTimer()
 						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = ioutil.Discard
-						cmd.Stderr = ioutil.Discard
+						cmd.Stdout = io.Discard
+						cmd.Stderr = io.Discard
 						b.StartTimer()
 						err := cmd.Run()
 						if err != nil {
@@ -230,8 +230,8 @@ func BenchmarkReadCMSScalar(b *testing.B) {
 					for i := 0; i < b.N; i++ {
 						b.StopTimer()
 						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = ioutil.Discard
-						cmd.Stderr = ioutil.Discard
+						cmd.Stdout = io.Discard
+						cmd.Stderr = io.Discard
 						b.StartTimer()
 						err := cmd.Run()
 						if err != nil {
@@ -288,8 +288,8 @@ func BenchmarkReadCMSAna(b *testing.B) {
 					for i := 0; i < b.N; i++ {
 						b.StopTimer()
 						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = ioutil.Discard
-						cmd.Stderr = ioutil.Discard
+						cmd.Stdout = io.Discard
+						cmd.Stderr = io.Discard
 						b.StartTimer()
 						err := cmd.Run()
 						if err != nil {
