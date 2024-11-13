@@ -42,8 +42,16 @@ func BenchmarkReadScalar(b *testing.B) {
 					fname: "./testdata/scalar-lz4.root",
 				},
 				{
-					name:  "Zlib",
-					fname: "./testdata/scalar-zlib.root",
+					name:  "Zlib-Lvl1",
+					fname: "./testdata/scalar-zlib-1.root",
+				},
+				{
+					name:  "Zlib-Lvl6",
+					fname: "./testdata/scalar-zlib-6.root",
+				},
+				{
+					name:  "Zlib-Lvl9",
+					fname: "./testdata/scalar-zlib-9.root",
 				},
 			} {
 				b.Run(bc.name, func(b *testing.B) {
@@ -97,8 +105,16 @@ func BenchmarkReadSlices(b *testing.B) {
 					fname: "./testdata/f64s-lz4.root",
 				},
 				{
-					name:  "Zlib",
-					fname: "./testdata/f64s-zlib.root",
+					name:  "Zlib-Lvl1",
+					fname: "./testdata/f64s-zlib-1.root",
+				},
+				{
+					name:  "Zlib-Lvl6",
+					fname: "./testdata/f64s-zlib-6.root",
+				},
+				{
+					name:  "Zlib-Lvl9",
+					fname: "./testdata/f64s-zlib-9.root",
 				},
 			} {
 				b.Run(bc.name, func(b *testing.B) {

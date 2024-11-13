@@ -40,9 +40,13 @@ bench:
 data-scalar: binaries
 	./bin/gen-data-scalar -zip=none -o ./testdata/scalar-none.root
 	./bin/gen-data-scalar -zip=lz4  -o ./testdata/scalar-lz4.root
-	./bin/gen-data-scalar -zip=zlib -o ./testdata/scalar-zlib.root
+	./bin/gen-data-scalar -zip=zlib -lvl=1 -o ./testdata/scalar-zlib-1.root
+	./bin/gen-data-scalar -zip=zlib -lvl=6 -o ./testdata/scalar-zlib-6.root
+	./bin/gen-data-scalar -zip=zlib -lvl=9 -o ./testdata/scalar-zlib-9.root
 
 data-slices: binaries
 	./bin/gen-data-slices -zip=none -o ./testdata/f64s-none.root
 	./bin/gen-data-slices -zip=lz4  -o ./testdata/f64s-lz4.root
-	./bin/gen-data-slices -zip=zlib -o ./testdata/f64s-zlib.root
+	./bin/gen-data-slices -zip=zlib -lvl=1 -o ./testdata/f64s-zlib-1.root
+	./bin/gen-data-slices -zip=zlib -lvl=6 -o ./testdata/f64s-zlib-6.root
+	./bin/gen-data-slices -zip=zlib -lvl=9 -o ./testdata/f64s-zlib-9.root
