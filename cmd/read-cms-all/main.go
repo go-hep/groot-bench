@@ -120,8 +120,6 @@ type Event struct {
 	ROOT_Muon_charge             []int32   `groot:"Muon_charge"`
 	ROOT_Muon_pfRelIso03_all     []float32 `groot:"Muon_pfRelIso03_all"`
 	ROOT_Muon_pfRelIso04_all     []float32 `groot:"Muon_pfRelIso04_all"`
-	ROOT_Muon_tightId            []bool    `groot:"Muon_tightId"`
-	ROOT_Muon_softId             []bool    `groot:"Muon_softId"`
 	ROOT_Muon_dxy                []float32 `groot:"Muon_dxy"`
 	ROOT_Muon_dxyErr             []float32 `groot:"Muon_dxyErr"`
 	ROOT_Muon_dz                 []float32 `groot:"Muon_dz"`

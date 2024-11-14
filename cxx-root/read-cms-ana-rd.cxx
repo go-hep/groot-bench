@@ -46,8 +46,6 @@ int main(int argc, char **argv) {
 	TTreeReaderArray<Int_t> Muon_charge = {r, "Muon_charge"};
 	TTreeReaderArray<Float_t> Muon_pfRelIso03_all = {r, "Muon_pfRelIso03_all"};
 	TTreeReaderArray<Float_t> Muon_pfRelIso04_all = {r, "Muon_pfRelIso04_all"};
-	TTreeReaderArray<Bool_t> Muon_tightId = {r, "Muon_tightId"};
-	TTreeReaderArray<Bool_t> Muon_softId = {r, "Muon_softId"};
 	TTreeReaderArray<Float_t> Muon_dxy = {r, "Muon_dxy"};
 	TTreeReaderArray<Float_t> Muon_dxyErr = {r, "Muon_dxyErr"};
 	TTreeReaderArray<Float_t> Muon_dz = {r, "Muon_dz"};
@@ -93,8 +91,6 @@ int main(int argc, char **argv) {
 				+ Muon_charge[0]
 				+ Muon_pfRelIso03_all[0]
 				+ Muon_pfRelIso04_all[0]
-				+ Muon_tightId[0]
-				+ Muon_softId[0]
 				+ Muon_dxy[0]
 				+ Muon_dxyErr[0]
 				+ Muon_dz[0]

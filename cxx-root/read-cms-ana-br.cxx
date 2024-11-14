@@ -26,8 +26,6 @@ struct Event {
    Int_t           Muon_charge[22];   //[nMuon]
    Float_t         Muon_pfRelIso03_all[22];   //[nMuon]
    Float_t         Muon_pfRelIso04_all[22];   //[nMuon]
-   Bool_t          Muon_tightId[22];   //[nMuon]
-   Bool_t          Muon_softId[22];   //[nMuon]
    Float_t         Muon_dxy[22];   //[nMuon]
    Float_t         Muon_dxyErr[22];   //[nMuon]
    Float_t         Muon_dz[22];   //[nMuon]
@@ -82,8 +80,6 @@ int main(int argc, char **argv) {
 	t->SetBranchAddress("Muon_charge", evt.Muon_charge);
 	t->SetBranchAddress("Muon_pfRelIso03_all", evt.Muon_pfRelIso03_all);
 	t->SetBranchAddress("Muon_pfRelIso04_all", evt.Muon_pfRelIso04_all);
-	t->SetBranchAddress("Muon_tightId", evt.Muon_tightId);
-	t->SetBranchAddress("Muon_softId", evt.Muon_softId);
 	t->SetBranchAddress("Muon_dxy", evt.Muon_dxy);
 	t->SetBranchAddress("Muon_dxyErr", evt.Muon_dxyErr);
 	t->SetBranchAddress("Muon_dz", evt.Muon_dz);
