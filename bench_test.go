@@ -5,9 +5,13 @@
 package bench_test
 
 import (
+	"bytes"
 	"io"
-	"os/exec"
+	"log"
 	"testing"
+	"time"
+
+	"github.com/sbinet/pmon"
 )
 
 func BenchmarkReadScalar(b *testing.B) {
@@ -57,15 +61,7 @@ func BenchmarkReadScalar(b *testing.B) {
 				b.Run(bc.name, func(b *testing.B) {
 					b.ResetTimer()
 					for i := 0; i < b.N; i++ {
-						b.StopTimer()
-						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = io.Discard
-						cmd.Stderr = io.Discard
-						b.StartTimer()
-						err := cmd.Run()
-						if err != nil {
-							b.Fatal(err)
-						}
+						pmonRun(b, lc.cmd, bc.fname, 10*time.Millisecond)
 					}
 				})
 			}
@@ -120,15 +116,7 @@ func BenchmarkReadSlices(b *testing.B) {
 				b.Run(bc.name, func(b *testing.B) {
 					b.ResetTimer()
 					for i := 0; i < b.N; i++ {
-						b.StopTimer()
-						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = io.Discard
-						cmd.Stderr = io.Discard
-						b.StartTimer()
-						err := cmd.Run()
-						if err != nil {
-							b.Fatal(err)
-						}
+						pmonRun(b, lc.cmd, bc.fname, 5*time.Millisecond)
 					}
 				})
 			}
@@ -172,15 +160,7 @@ func BenchmarkReadCMSAll(b *testing.B) {
 				b.Run(bc.name, func(b *testing.B) {
 					b.ResetTimer()
 					for i := 0; i < b.N; i++ {
-						b.StopTimer()
-						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = io.Discard
-						cmd.Stderr = io.Discard
-						b.StartTimer()
-						err := cmd.Run()
-						if err != nil {
-							b.Fatal(err)
-						}
+						pmonRun(b, lc.cmd, bc.fname, 100*time.Millisecond)
 					}
 				})
 			}
@@ -228,15 +208,7 @@ func BenchmarkReadCMSScalar(b *testing.B) {
 				b.Run(bc.name, func(b *testing.B) {
 					b.ResetTimer()
 					for i := 0; i < b.N; i++ {
-						b.StopTimer()
-						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = io.Discard
-						cmd.Stderr = io.Discard
-						b.StartTimer()
-						err := cmd.Run()
-						if err != nil {
-							b.Fatal(err)
-						}
+						pmonRun(b, lc.cmd, bc.fname, 100*time.Millisecond)
 					}
 				})
 			}
@@ -286,18 +258,58 @@ func BenchmarkReadCMSAna(b *testing.B) {
 				b.Run(bc.name, func(b *testing.B) {
 					b.ResetTimer()
 					for i := 0; i < b.N; i++ {
-						b.StopTimer()
-						cmd := exec.Command(lc.cmd, bc.fname)
-						cmd.Stdout = io.Discard
-						cmd.Stderr = io.Discard
-						b.StartTimer()
-						err := cmd.Run()
-						if err != nil {
-							b.Fatal(err)
-						}
+						pmonRun(b, lc.cmd, bc.fname, 100*time.Millisecond)
 					}
 				})
 			}
 		})
 	}
+}
+
+func pmonRun(b *testing.B, cmd, fname string, freq time.Duration) {
+	b.StopTimer()
+
+	var (
+		buf = new(bytes.Buffer)
+		p   = pmon.New(cmd, fname)
+	)
+	defer p.Kill()
+
+	if freq < 0 {
+		freq = 10 * time.Millisecond
+	}
+
+	p.W = buf
+	p.Freq = freq
+	p.Cmd.Stdout = io.Discard
+	p.Cmd.Stderr = io.Discard
+	p.Msg = log.New(io.Discard, "", 0)
+
+	b.StartTimer()
+	err := p.Run()
+	b.StopTimer()
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	meta, err := pmon.Parse(buf)
+	if err != nil {
+		b.Fatalf("could not parse pmon-data: %+v", err)
+	}
+
+	var (
+		rss  = -1.0
+		vmem = -1.0
+	)
+	for _, nfo := range meta.Infos {
+		rss = max(rss, float64(nfo.RSS))
+		vmem = max(vmem, float64(nfo.VMem))
+	}
+
+	b.ReportMetric(meta.Elapsed.Seconds(), "wall/op")
+
+	const kb2b = 1000
+	b.ReportMetric(rss*kb2b, "rss/op")
+	b.ReportMetric(vmem*kb2b, "vmem/op")
+
 }
