@@ -4,7 +4,7 @@ go 1.22.0
 
 require (
 	github.com/sbinet/pmon v0.7.1
-	go-hep.org/x/hep v0.35.0
+	go-hep.org/x/hep v0.36.0
 	golang.org/x/perf v0.0.0-20241112183634-aa2227201f71
 )
 
@@ -13,7 +13,7 @@ require (
 	github.com/gonuts/binary v0.2.0 // indirect
 	github.com/google/safehtml v0.0.2 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
-	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/pierrec/lz4/v4 v4.1.21 // indirect
 	github.com/pierrec/xxHash v0.1.5 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect
