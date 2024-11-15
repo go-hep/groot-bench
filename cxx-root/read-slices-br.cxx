@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <stdint.h>
-#include <vector>
 
 #include "TFile.h"
 #include "TTree.h"
@@ -29,10 +28,11 @@ int main(int argc, char **argv) {
 	t->SetBranchStatus("var03", 1);
 
 
-	std::vector<double> var00;
-	std::vector<double> var01;
-	std::vector<double> var02;
-	std::vector<double> var03;
+	const int NMAX = 10;
+	double var00[NMAX];
+	double var01[NMAX];
+	double var02[NMAX];
+	double var03[NMAX];
 
 	t->SetBranchAddress("var00", &var00);
 	t->SetBranchAddress("var01", &var01);
